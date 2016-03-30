@@ -19,12 +19,16 @@ Object.assign(player.style, {
   bottom: 0,
 });
 
+function renderPlayButton(playButton, state) {
+  playButton.textContent = state.playing ? '(playing)' : '(play)';
+  playButton.style.color = state.playing ? VISITED_GOLD : null;
+}
+
 function handleEnd() {
   if (!player.currentAnchor) {
     return;
   }
-  player.currentAnchor.play.textContent = '(play)';
-  player.currentAnchor.play.style.color = null;
+  renderPlayButton(player.currentAnchor.play, { playing: false });
   player.currentAnchor = null;
 }
 
@@ -38,15 +42,15 @@ var anchors = Array.prototype.slice.call(document.querySelectorAll('a'))
   .filter(function(anchor) { return /\.m3u$/.test(anchor.href); });
 
 anchors.forEach(function(anchor) {
-  var playContainer = document.createElement('span')
-  playContainer.textContent = ' ';
   var play = document.createElement('a');
   play.setAttribute('href', '#');
-  play.textContent = '(play)';
-  playContainer.appendChild(play);
-
+  renderPlayButton(play, { playing: false });
   // reference used for re-rendering above
   anchor.play = play;
+
+  var playContainer = document.createElement('span')
+  playContainer.textContent = ' ';
+  playContainer.appendChild(play);
 
   play.addEventListener('click', function(event) {
     event.preventDefault();
@@ -58,8 +62,7 @@ anchors.forEach(function(anchor) {
     player.pause();
     handleEnd();
     player.currentAnchor = anchor;
-    play.textContent = '(playing)';
-    play.style.color = VISITED_GOLD;
+    renderPlayButton(play, { playing: true });
 
     get(anchor.href, function(url) {
       player.setAttribute('src', url);
