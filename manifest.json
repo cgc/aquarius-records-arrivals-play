@@ -5,6 +5,13 @@
   "description": "This extension adds a play button to aquarius record's new arrivals page.",
   "version": "1.0",
 
+  "background": {
+    "persistent": false,
+    "page": "background.html"
+  },
+
+  "browser_action": {},
+
   "content_scripts": [
     {
       "matches": [
