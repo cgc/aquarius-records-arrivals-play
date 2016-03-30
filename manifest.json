@@ -1,0 +1,21 @@
+{
+  "manifest_version": 2,
+
+  "name": "Aquarius Records Arrivals Play Button",
+  "description": "This extension adds a play button to aquarius record's new arrivals page.",
+  "version": "1.0",
+
+  "content_scripts": [
+    {
+      "matches": [
+        "http://aquariusrecords.org/cat/newest.html",
+        "http://aquariusrecords.org/archives/*.html"
+      ],
+      "js": ["index.js"]
+    }
+  ],
+
+  "permissions": [
+    "http://aquariusrecords.org/audio/*.m3u"
+  ]
+}
